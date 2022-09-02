@@ -1,3 +1,6 @@
 .hr{
     border: 1px solid grey;
 }
+.text-justify{
+    text-align: justify;
+}
