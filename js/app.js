@@ -50,14 +50,22 @@ const displayNews = async (news, name) => {
       </div>
       <div class="col-md-10">
         <div class="card-body">
-          <h5 class="card-title">${viewNews.title}</h5>
+          <h4 class="card-title">${viewNews.title}</h4>
           <p class="card-text text-justify">${viewNews.details}</p>
           <div class="d-flex justify-content-between">
           <div class="mt-4 d-flex">
-          <img src="${viewNews.author.img}" class="rounded-circle author-image" alt="" />
+          <img src="${
+            viewNews.author.img
+          }" class="rounded-circle author-image" alt="" />
           <div class="ms-3">
-          <p class="fw-bold mb-0">${viewNews.author.name?viewNews.author.name:`not found`}</p>
-          <span class="">${viewNews.author.published_date?viewNews.author.published_date:`not found`}</span>
+          <p class="fw-bold mb-0">${
+            viewNews.author.name ? viewNews.author.name : `not found`
+          }</p>
+          <span class="">${
+            viewNews.author.published_date
+              ? viewNews.author.published_date
+              : `not found`
+          }</span>
           </div>
           </div>
           <div class="mt-4 d-flex">
@@ -67,11 +75,13 @@ const displayNews = async (news, name) => {
             </svg>
           <div class="ms-3">
           <p class="fw-bold mb-0"></p>
-          <span class="">${viewNews.total_view?viewNews.total_view:`not found`}</span>
+          <span class="">${
+            viewNews.total_view ? viewNews.total_view : `not found`
+          }</span>
           </div>
           </div>
           <div class="mt-4">
-          <button class="btn btn-info">Details</button>                   
+          <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="detailsModal()">Details</button>                   
           </div>         
           </div>          
         </div>
@@ -83,5 +93,9 @@ const displayNews = async (news, name) => {
   });
   newsCounter(data, name);
 };
+
+const detailsModal=async()=>{
+    
+}
 
 categories();

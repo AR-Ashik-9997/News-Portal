@@ -13,7 +13,10 @@
       crossorigin="anonymous"
     />
     <!-- FontAwesom -->
-    <script src="https://kit.fontawesome.com/cad5bfbceb.js" crossorigin="anonymous"></script>
+    <script
+      src="https://kit.fontawesome.com/cad5bfbceb.js"
+      crossorigin="anonymous"
+    ></script>
     <!-- Custom CSS -->
     <link rel="stylesheet" href="styles/style.css" />
   </head>
@@ -56,10 +59,10 @@
         <hr class="hr" />
       </section>
     </header>
-    <main>        
+    <main>
       <!-- Catagories Section -->
       <section class="container">
-        <div class="row" >
+        <div class="row">
           <nav
             class="nav d-flex justify-content-center"
             id="Catagory-list"
@@ -69,16 +72,53 @@
       <!-- Counter News -->
       <section class="container mt-5">
         <div class="row">
-            <div class="col-lg-12">
-                <div class="bg-light p-3" id="news-count"></div>                    
-            </div>                
-        </div>           
-    </section>
+          <div class="col-lg-12">
+            <div class="bg-light p-3" id="news-count"></div>
+          </div>
+        </div>
+      </section>
       <!-- View Catagory News -->
       <section class="container mt-5">
-        <div class="row" id="news">            
+        <div class="row" id="news"></div>
+      </section>
+      <!-- view Modal -->
+      <section>
+        <div
+          class="modal fade"
+          id="staticBackdrop"
+          data-bs-backdrop="static"
+          data-bs-keyboard="false"
+          tabindex="-1"
+          aria-labelledby="staticBackdropLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">
+                  Modal title
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">...</div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-      </section>      
+      </section>
     </main>
     <footer>
       <!-- place footer here -->
