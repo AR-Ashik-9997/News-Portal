@@ -10,18 +10,32 @@ const categories = async () => {
   const categoriesList = document.getElementById("Catagory-list");
   data.news_category.forEach((categories) => {
     const listLink = document.createElement("div");
-    listLink.innerHTML = `<button class="btn btn-link fs-4 text-decoration-none text-secondary" onclick="loadNews('${categories.category_id}')">${categories.category_name}</button>`;
+    listLink.innerHTML = `<button class="btn btn-link fs-4 text-decoration-none text-secondary" onclick="loadNews('${categories.category_id}','${categories.category_name}')">${categories.category_name}</button>`;
     categoriesList.appendChild(listLink);
   });
 };
-const loadNews = async (id) => {
+const loadNews = async (id, name) => {
   const url = `https://openapi.programming-hero.com/api/news/category/${id}`;
   const res = await fetch(url);
   const data = await res.json();
-  displayNews(data);
+  displayNews(data, name);
 };
 
-const displayNews = async (news) => {
+const newsCounter = async (count, catagoryName) => {
+  const counter = await count;
+  const newsCount = document.getElementById("news-count");
+  newsCount.textContent = ``;
+  const viewCount = document.createElement("p");
+  viewCount.classList.add("fs-4");
+  viewCount.innerText = `${
+    counter.length
+      ? counter.length + " " + `items found for category of ${catagoryName}`
+      : `No News Found for category of ${catagoryName}`
+  }`;
+  newsCount.appendChild(viewCount);
+};
+
+const displayNews = async (news, name) => {
   const { data } = news;
   const Newsdisplay = document.getElementById("news");
   Newsdisplay.textContent = ``;
@@ -42,8 +56,8 @@ const displayNews = async (news) => {
           <div class="mt-4 d-flex">
           <img src="${viewNews.author.img}" class="rounded-circle author-image" alt="" />
           <div class="ms-3">
-          <p class="fw-bold mb-0">${viewNews.author.name}</p>
-          <span class="">${viewNews.author.published_date}</span>
+          <p class="fw-bold mb-0">${viewNews.author.name?viewNews.author.name:`not found`}</p>
+          <span class="">${viewNews.author.published_date?viewNews.author.published_date:`not found`}</span>
           </div>
           </div>
           <div class="mt-4 d-flex">
@@ -53,7 +67,7 @@ const displayNews = async (news) => {
             </svg>
           <div class="ms-3">
           <p class="fw-bold mb-0"></p>
-          <span class="">${viewNews.total_view}</span>
+          <span class="">${viewNews.total_view?viewNews.total_view:`not found`}</span>
           </div>
           </div>
           <div class="mt-4">
@@ -67,6 +81,7 @@ const displayNews = async (news) => {
     `;
     Newsdisplay.appendChild(cardColumn);
   });
+  newsCounter(data, name);
 };
 
 categories();
