@@ -10,7 +10,7 @@ const categories = async () => {
   const categoriesList = document.getElementById("Catagory-list");
   data.news_category.forEach((categories) => {
     const listLink = document.createElement("div");
-    listLink.innerHTML = `<button class="btn btn-link fs-4 text-decoration-none text-secondary" onclick="loadNews('${categories.category_id}','${categories.category_name}')">${categories.category_name}</button>`;
+    listLink.innerHTML = `<button class="btn btn-link fs-4 text-decoration-none  text-secondary" onclick="loadNews('${categories.category_id}','${categories.category_name}')">${categories.category_name}</button>`;
     categoriesList.appendChild(listLink);
   });
 };
@@ -34,8 +34,8 @@ const newsCounter = async (count, catagoryName) => {
   viewCount.classList.add("fs-4");
   viewCount.innerText = `${
     counter.length
-      ? counter.length + " " + `items found for category of ${catagoryName}`
-      : `No News Found for category of ${catagoryName}`
+      ? counter.length + " " + `items found for the category of ${catagoryName}`
+      : `No News Found for the category of ${catagoryName}`
   }`;
   newsCount.appendChild(viewCount);
 };
@@ -49,8 +49,8 @@ const displayNews = async (news, name) => {
       ? -1
       : 0
   );
-  const Newsdisplay = document.getElementById("news");
-  Newsdisplay.textContent = ``;
+  const newsDisplay = document.getElementById("news");
+  newsDisplay.textContent = ``;
   data.forEach((viewNews) => {
     const cardColumn = document.createElement("div");
     cardColumn.classList.add("col-lg-12");
@@ -87,7 +87,7 @@ const displayNews = async (news, name) => {
             </div>
             </div>
             <div class="mt-4 d-flex">
-            <p><i class="bi bi-eye fs-4"></i><span class="fs-4 fw-bold ms-2">${
+            <p><i class="bi bi-eye fs-5"></i><span class="fs-5 fw-bold ms-2">${
               viewNews.total_view
                 ? viewNews.total_view + "" + "M"
                 : `no data available`
@@ -104,10 +104,10 @@ const displayNews = async (news, name) => {
       </div>
     </div>
       `;
-    Newsdisplay.appendChild(cardColumn);
+    newsDisplay.appendChild(cardColumn);
   });
-
   newsCounter(data, name);
+  bannerImage(data);
   sortedlist();
 };
 
@@ -178,6 +178,11 @@ const sortedlist = async () => {
 </select>
 `;
   sort.appendChild(sortDiv);
+};
+const bannerImage = async (database) => {
+  const data = await database;
+  const image = document.getElementById("img");
+  image.innerHTML = `<img src="${data[0].author.img}" class="img-fluid rounded-circle author-image" alt=""/>`;
 };
 categories();
 defaultView();
