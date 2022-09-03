@@ -59,29 +59,24 @@ const displayNews = async (news, name) => {
           }" class="rounded-circle author-image" alt="" />
           <div class="ms-3">
           <p class="fw-bold mb-0">${
-            viewNews.author.name ? viewNews.author.name : `not found`
+            viewNews.author.name ? viewNews.author.name : `no data available`
           }</p>
           <span class="">${
             viewNews.author.published_date
-              ? viewNews.author.published_date
-              : `not found`
+              ? viewNews.author.published_date.slice(0, 10)
+              : `no data available`
           }</span>
           </div>
           </div>
           <div class="mt-4 d-flex">
-          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
-            <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
-            <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
-            </svg>
-          <div class="ms-3">
-          <p class="fw-bold mb-0"></p>
-          <span class="">${
-            viewNews.total_view ? viewNews.total_view : `not found`
-          }</span>
-          </div>
+          <p><i class="bi bi-eye fs-4"></i><span class="fs-4 ms-2">${
+            viewNews.total_view ? viewNews.total_view : `no data available`
+          }</span></p>         
           </div>
           <div class="mt-4">
-          <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="detailsModal()">Details</button>                   
+          <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="detailsModal('${
+            viewNews._id
+          }')">Details</button>                   
           </div>         
           </div>          
         </div>
@@ -94,8 +89,58 @@ const displayNews = async (news, name) => {
   newsCounter(data, name);
 };
 
-const detailsModal=async()=>{
+const detailsModal = async (detailsId) => {
+  const url = `https://openapi.programming-hero.com/api/news/${detailsId}`;
+  const res = await fetch(url);
+  const data = await res.json();
+  displayDetailsModal(data);
+};
+
+const displayDetailsModal = async (details) => {
+  const { data } = details;
+  const modalBody = document.getElementById("modal-body");
+  modalBody.textContent = ``;
+  data.forEach((viewModal) => {
+    const modalTitle = document.getElementById("staticBackdropLabel");
+    modalTitle.innerText = `${viewModal.title}`;
+    const modalDiv = document.createElement("div");
+    modalDiv.innerHTML = `
+    <div class="d-flex justify-content-center">
+    <img src="${
+      viewModal.author.img
+    }" class="img-fluid rounded-circle modal-image mx-auto" alt="">
+    </div>
     
-}
+    <h4 class="text-center mt-4">${viewModal.author.name}</h4> 
+    <div class="d-flex justify-content-around mt-4">
+    <p class="fs-4">${
+      viewModal.author.published_date
+        ? viewModal.author.published_date.slice(0, 10)
+        : `no data available`
+    }</p>   
+    <p><i class="bi bi-eye fs-4"></i><span class="fs-4 ms-2">${
+      viewModal.total_view ? viewModal.total_view : `no data available`
+    }</span></p> 
+    <div class="d-flex">          
+          <div>
+          <p class="fs-4 mb-0 text-center">${
+            viewModal.rating.number
+              ? viewModal.rating.number
+              : "no data available"
+          }</p>
+          <p class="fs-4">${
+            viewModal.rating.badge
+              ? viewModal.rating.badge
+              : `no data available`
+          }</p>
+          </div>
+          </div>   
+    </div> 
+      
+        
+    `;
+    modalBody.appendChild(modalDiv);
+  });
+};
 
 categories();
