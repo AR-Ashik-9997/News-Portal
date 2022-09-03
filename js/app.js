@@ -18,7 +18,7 @@ const loadNews = async (id, name) => {
   const url = `https://openapi.programming-hero.com/api/news/category/${id}`;
   const res = await fetch(url);
   const data = await res.json();
-  displayNews(data, name);
+  displayNews(data, name);   
 };
 
 const newsCounter = async (count, catagoryName) => {
@@ -37,56 +37,61 @@ const newsCounter = async (count, catagoryName) => {
 
 const displayNews = async (news, name) => {
   const { data } = news;
+  data.sort((view1,view2)=>(view1.total_view<view2.total_view)?1:(view1.total_view>view2.total_view)?-1:0);  
   const Newsdisplay = document.getElementById("news");
   Newsdisplay.textContent = ``;
   data.forEach((viewNews) => {
     const cardColumn = document.createElement("div");
     cardColumn.classList.add("col-lg-12");
     cardColumn.innerHTML = `
-    <div class="card mb-3">
-    <div class="row g-0">
-      <div class="col-md-2">
-        <img src="${viewNews.thumbnail_url}" class="img-fluid w-full" alt="" />
-      </div>
-      <div class="col-md-10">
-        <div class="card-body">
-          <h4 class="card-title">${viewNews.title}</h4>
-          <p class="card-text text-justify">${viewNews.details}</p>
-          <div class="d-flex justify-content-between">
-          <div class="mt-4 d-flex">
+      <div class="card mb-3">
+      <div class="row g-0">
+        <div class="col-md-2">
           <img src="${
-            viewNews.author.img
-          }" class="rounded-circle author-image" alt="" />
-          <div class="ms-3">
-          <p class="fw-bold mb-0">${
-            viewNews.author.name ? viewNews.author.name : `no data available`
-          }</p>
-          <span class="">${
-            viewNews.author.published_date
-              ? viewNews.author.published_date.slice(0, 10)
-              : `no data available`
-          }</span>
+            viewNews.thumbnail_url
+          }" class="img-fluid w-full" alt="" />
+        </div>
+        <div class="col-md-10">
+          <div class="card-body">
+            <h4 class="card-title">${viewNews.title}</h4>
+            <p class="card-text text-justify">${viewNews.details.length<=900?viewNews.details:viewNews.details.slice(0,900)+'......'}</p>
+            <div class="d-flex justify-content-between">
+            <div class="mt-4 d-flex">
+            <img src="${
+              viewNews.author.img
+            }" class="rounded-circle author-image" alt="" />
+            <div class="ms-3">
+            <p class="fw-bold mb-0">${
+              viewNews.author.name ? viewNews.author.name : `no data available`
+            }</p>
+            <span class="">${
+              viewNews.author.published_date
+                ? viewNews.author.published_date.slice(0, 10)
+                : `no data available`
+            }</span>
+            </div>
+            </div>
+            <div class="mt-4 d-flex">
+            <p><i class="bi bi-eye fs-4"></i><span class="fs-4 ms-2">${
+              viewNews.total_view ? viewNews.total_view : `no data available`
+            }</span></p>         
+            </div>
+            <div class="mt-4">
+            <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="detailsModal('${
+              viewNews._id
+            }')">Details</button>                   
+            </div>         
+            </div>          
           </div>
-          </div>
-          <div class="mt-4 d-flex">
-          <p><i class="bi bi-eye fs-4"></i><span class="fs-4 ms-2">${
-            viewNews.total_view ? viewNews.total_view : `no data available`
-          }</span></p>         
-          </div>
-          <div class="mt-4">
-          <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="detailsModal('${
-            viewNews._id
-          }')">Details</button>                   
-          </div>         
-          </div>          
         </div>
       </div>
     </div>
-  </div>
-    `;
+      `;
     Newsdisplay.appendChild(cardColumn);
   });
+
   newsCounter(data, name);
+  sortedlist();
 };
 
 const detailsModal = async (detailsId) => {
@@ -135,12 +140,25 @@ const displayDetailsModal = async (details) => {
           }</p>
           </div>
           </div>   
-    </div> 
-      
+    </div>     
         
     `;
     modalBody.appendChild(modalDiv);
   });
+};
+
+const sortedlist = async () => {
+  const sort = document.getElementById("sort");
+  sort.textContent = ``;
+  const sortDiv = document.createElement("div");
+  sortDiv.classList.add("d-flex");
+  sortDiv.innerHTML = `
+<h4>Sort By View:</h4>
+<select class="form-select ms-4 sort-selection" aria-label="Default select example">          
+<option value="any">Default</option>
+</select>
+`;
+  sort.appendChild(sortDiv);
 };
 
 categories();
