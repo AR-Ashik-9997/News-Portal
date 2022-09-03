@@ -14,11 +14,16 @@ const categories = async () => {
     categoriesList.appendChild(listLink);
   });
 };
+const defaultView = async () => {
+  const id = "01";
+  const name = "Breaking News";
+  loadNews(id, name);
+};
 const loadNews = async (id, name) => {
   const url = `https://openapi.programming-hero.com/api/news/category/${id}`;
   const res = await fetch(url);
   const data = await res.json();
-  displayNews(data, name);   
+  displayNews(data, name);
 };
 
 const newsCounter = async (count, catagoryName) => {
@@ -37,7 +42,13 @@ const newsCounter = async (count, catagoryName) => {
 
 const displayNews = async (news, name) => {
   const { data } = news;
-  data.sort((view1,view2)=>(view1.total_view<view2.total_view)?1:(view1.total_view>view2.total_view)?-1:0);  
+  data.sort((view1, view2) =>
+    view1.total_view < view2.total_view
+      ? 1
+      : view1.total_view > view2.total_view
+      ? -1
+      : 0
+  );
   const Newsdisplay = document.getElementById("news");
   Newsdisplay.textContent = ``;
   data.forEach((viewNews) => {
@@ -54,7 +65,11 @@ const displayNews = async (news, name) => {
         <div class="col-md-10">
           <div class="card-body">
             <h4 class="card-title">${viewNews.title}</h4>
-            <p class="card-text text-justify">${viewNews.details.length<=900?viewNews.details:viewNews.details.slice(0,900)+'......'}</p>
+            <p class="card-text text-justify">${
+              viewNews.details.length <= 900
+                ? viewNews.details
+                : viewNews.details.slice(0, 900) + "......"
+            }</p>
             <div class="d-flex justify-content-between">
             <div class="mt-4 d-flex">
             <img src="${
@@ -72,8 +87,10 @@ const displayNews = async (news, name) => {
             </div>
             </div>
             <div class="mt-4 d-flex">
-            <p><i class="bi bi-eye fs-4"></i><span class="fs-4 ms-2">${
-              viewNews.total_view ? viewNews.total_view : `no data available`
+            <p><i class="bi bi-eye fs-4"></i><span class="fs-4 fw-bold ms-2">${
+              viewNews.total_view
+                ? viewNews.total_view + "" + "M"
+                : `no data available`
             }</span></p>         
             </div>
             <div class="mt-4">
@@ -123,8 +140,10 @@ const displayDetailsModal = async (details) => {
         ? viewModal.author.published_date.slice(0, 10)
         : `no data available`
     }</p>   
-    <p><i class="bi bi-eye fs-4"></i><span class="fs-4 ms-2">${
-      viewModal.total_view ? viewModal.total_view : `no data available`
+    <p><i class="bi bi-eye fs-4"></i><span class="fs-4 fw-bold ms-2">${
+      viewModal.total_view
+        ? viewModal.total_view + "" + "M"
+        : `no data available`
     }</span></p> 
     <div class="d-flex">          
           <div>
@@ -160,5 +179,5 @@ const sortedlist = async () => {
 `;
   sort.appendChild(sortDiv);
 };
-
 categories();
+defaultView();
