@@ -1,8 +1,12 @@
 const loadData = async () => {
-  const url = `https://openapi.programming-hero.com/api/news/category/01`;
-  const res = await fetch(url);
-  const data = await res.json();
-  bannerImage(data);
+  try {
+    const url = `https://openapi.programming-hero.com/api/news/category/01`;
+    const res = await fetch(url);
+    const data = await res.json();
+    bannerImage(data);
+  } catch (error) {
+    console.log(error);
+  }
 };
 const bannerImage = async (database) => {
   const { data } = await database;

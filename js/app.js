@@ -1,8 +1,12 @@
 const loadData = async () => {
-  const url = `https://openapi.programming-hero.com/api/news/categories`;
-  const res = await fetch(url);
-  const data = await res.json();
-  return data;
+  try {
+    const url = `https://openapi.programming-hero.com/api/news/categories`;
+    const res = await fetch(url);
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
 };
 const categories = async () => {
   const database = await loadData();
@@ -15,10 +19,14 @@ const categories = async () => {
   });
 };
 const loadNews = async (id, name) => {
-  const url = `https://openapi.programming-hero.com/api/news/category/${id}`;
-  const res = await fetch(url);
-  const data = await res.json();
-  displayNews(data, name);
+  try {
+    const url = `https://openapi.programming-hero.com/api/news/category/${id}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    displayNews(data, name);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const newsCounter = async (count, catagoryName) => {
@@ -26,7 +34,9 @@ const newsCounter = async (count, catagoryName) => {
   const newsCount = document.getElementById("news-count");
   newsCount.textContent = ``;
   const viewCount = document.createElement("p");
-  viewCount.classList.add("fs-4");  
+  viewCount.classList.add("fs-4");
+  viewCount.classList.add("text-center");
+
   viewCount.innerText = `${
     counter.length
       ? counter.length + " " + `items found for the category of ${catagoryName}`
@@ -108,10 +118,14 @@ const displayNews = async (news, name) => {
 };
 
 const detailsModal = async (detailsId) => {
-  const url = `https://openapi.programming-hero.com/api/news/${detailsId}`;
-  const res = await fetch(url);
-  const data = await res.json();
-  displayDetailsModal(data);
+  try {
+    const url = `https://openapi.programming-hero.com/api/news/${detailsId}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    displayDetailsModal(data);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const displayDetailsModal = async (details) => {
