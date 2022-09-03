@@ -14,11 +14,6 @@ const categories = async () => {
     categoriesList.appendChild(listLink);
   });
 };
-const defaultView = async () => {
-  const id = "01";
-  const name = "Breaking News";
-  loadNews(id, name);
-};
 const loadNews = async (id, name) => {
   const url = `https://openapi.programming-hero.com/api/news/category/${id}`;
   const res = await fetch(url);
@@ -31,7 +26,7 @@ const newsCounter = async (count, catagoryName) => {
   const newsCount = document.getElementById("news-count");
   newsCount.textContent = ``;
   const viewCount = document.createElement("p");
-  viewCount.classList.add("fs-4");
+  viewCount.classList.add("fs-4");  
   viewCount.innerText = `${
     counter.length
       ? counter.length + " " + `items found for the category of ${catagoryName}`
@@ -54,13 +49,14 @@ const displayNews = async (news, name) => {
   data.forEach((viewNews) => {
     const cardColumn = document.createElement("div");
     cardColumn.classList.add("col-lg-12");
+    cardColumn.classList.add("col-sm-12");
     cardColumn.innerHTML = `
       <div class="card mb-3">
       <div class="row g-0">
         <div class="col-md-2">
           <img src="${
             viewNews.thumbnail_url
-          }" class="img-fluid w-full" alt="" />
+          }" class="img-fluid p-2 mx-auto d-block" alt="" />
         </div>
         <div class="col-md-10">
           <div class="card-body">
@@ -86,7 +82,7 @@ const displayNews = async (news, name) => {
             }</span>
             </div>
             </div>
-            <div class="mt-4 d-flex">
+            <div class="mt-4 d-flex d-sm-none d-none d-lg-block d-md-block">
             <p><i class="bi bi-eye fs-5"></i><span class="fs-5 fw-bold ms-2">${
               viewNews.total_view
                 ? viewNews.total_view + "" + "M"
@@ -184,7 +180,11 @@ const bannerImage = async (database) => {
   const image = document.getElementById("img");
   image.innerHTML = `<img src="${data[0].author.img}" class="img-fluid rounded-circle author-image" alt=""/>`;
 };
-
+const defaultView = async () => {
+  const id = "01";
+  const name = "Breaking News";
+  loadNews(id, name);
+};
 const newsPage = () => {
   const newsButton = document.getElementById("news-btn");
   newsButton.classList.add("active");
