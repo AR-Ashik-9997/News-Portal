@@ -8,7 +8,7 @@ const loadData = async () => {
     console.log(error);
   }
 };
-const categories = async () => {
+const categories = async () => {  
   const database = await loadData();
   const { data } = database;
   const categoriesList = document.getElementById("Catagory-list");
@@ -20,6 +20,7 @@ const categories = async () => {
 };
 const loadNews = async (id, name) => {
   try {
+    toggleSpinner(true);
     const url = `https://openapi.programming-hero.com/api/news/category/${id}`;
     const res = await fetch(url);
     const data = await res.json();
@@ -43,6 +44,7 @@ const newsCounter = async (count, catagoryName) => {
       : `No News Found for the category of ${catagoryName}`
   }`;
   newsCount.appendChild(viewCount);
+  toggleSpinner(false);
 };
 
 const displayNews = async (news, name) => {
@@ -111,6 +113,7 @@ const displayNews = async (news, name) => {
     </div>
       `;
     newsDisplay.appendChild(cardColumn);
+    toggleSpinner(false);
   });
   newsCounter(data, name);
   bannerImage(data);
@@ -198,6 +201,7 @@ const defaultView = async () => {
   const id = "01";
   const name = "Breaking News";
   loadNews(id, name);
+  toggleSpinner(true);
 };
 const newsPage = () => {
   const newsButton = document.getElementById("news-btn");
@@ -205,7 +209,18 @@ const newsPage = () => {
 };
 document.getElementById("blog").addEventListener("click", function () {
   window.location.href = `./blog.html`;
+  toggleSpinner(true);
 });
+
+const toggleSpinner = isLoading => {
+  const loaderSection = document.getElementById('spinner');
+  if(isLoading){
+      loaderSection.classList.remove('d-none')
+  }
+  else{
+      loaderSection.classList.add('d-none');
+  }
+}
 newsPage();
 categories();
 defaultView();
