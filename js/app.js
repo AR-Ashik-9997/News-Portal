@@ -148,7 +148,7 @@ const displayDetailsModal = async (details) => {
     
     <h4 class="text-center mt-4">${viewModal.author.name}</h4> 
     <div class="d-flex justify-content-around mt-4">
-    <p class="fs-4">${
+    <p class="fs-5"><span class="fw-bold">Date: </span> ${
       viewModal.author.published_date
         ? viewModal.author.published_date.slice(0, 10)
         : `no data available`
@@ -160,7 +160,7 @@ const displayDetailsModal = async (details) => {
     }</span></p> 
     <div class="d-flex">          
           <div>
-          <p class="fs-4 mb-0 text-center">${
+          <p class="fs-4 mb-0 text-center fw-bold">${
             viewModal.rating.number
               ? viewModal.rating.number
               : "no data available"
