@@ -184,5 +184,14 @@ const bannerImage = async (database) => {
   const image = document.getElementById("img");
   image.innerHTML = `<img src="${data[0].author.img}" class="img-fluid rounded-circle author-image" alt=""/>`;
 };
+
+const newsPage = () => {
+  const newsButton = document.getElementById("news-btn");
+  newsButton.classList.add("active");
+};
+document.getElementById("blog").addEventListener("click", function () {
+  window.location.href = `./blog.html`;
+});
+newsPage();
 categories();
 defaultView();
